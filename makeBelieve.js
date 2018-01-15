@@ -1,6 +1,6 @@
 /*
-	Skeleton from teacher Arnar Leifsson.
-*/
+  Skeleton from teacher Arnar Leifsson.
+  */
 (function() {
   function makeBelieveElement(element, length) {
     var i = 0;
@@ -15,11 +15,11 @@
 
   makeBelieveElement.prototype.nextSibling = function() {
     /*
-			This function takes a makeBelieveElement and goes
-			through every element it represents and gets the 
-			next sibling to those elements, and returns them 
-			in a new makeBelieveElement
-		*/
+      This function takes a makeBelieveElement and goes
+      through every element it represents and gets the
+      next sibling to those elements, and returns them
+      in a new makeBelieveElement
+      */
     var allNextSiblings = [];
     for (let index = 0; index < this.length; index++) {
       const nextSibling = this[index].nextElementSibling;
@@ -32,11 +32,11 @@
 
   makeBelieveElement.prototype.previousSibling = function() {
     /*
-			This function takes a makeBelieveElement and goes
-			through every element it represents and gets the 
-			previous sibling to those elements and returns 
-			a new makeBelieveElement
-		*/
+      This function takes a makeBelieveElement and goes
+      through every element it represents and gets the
+      previous sibling to those elements and returns
+      a new makeBelieveElement
+      */
     var allPreviousSiblings = [];
     for (let index = 0; index < this.length; index++) {
       const previousSibling = this[index].previousElementSibling;
@@ -60,10 +60,10 @@
   }
 
   makeBelieveElement.prototype.parent = function(selector = "") {
-    /* 
-			returns every parent of every item in the makebelieve element.
-			Can be filtered by a optional css selector
-		*/
+    /*
+      returns every parent of every item in the makebelieve element.
+      Can be filtered by a optional css selector
+      */
 
     // make a nodelist of parents that I allow if the user asks for a filtered version
     var possibleParents = "";
@@ -106,10 +106,10 @@
   }
 
   function ancestorHandler(makebelieve, selector) {
-    /* 
-			returns any ancestor of an item which is greater than a grandparent to it
-			can be filtered by an optional css selector 
-		*/
+    /*
+      returns any ancestor of an item which is greater than a grandparent to it
+      can be filtered by an optional css selector
+      */
     console.log("in handler with ");
     console.log(makebelieve);
     var allAncestors = [];
@@ -190,10 +190,36 @@
   };
 
   makeBelieveElement.prototype.delete = function() {
-	  for (let index = 0; index < this.length; index++) {
-		  this[index].parentNode.removeChild(this[index]);
-	  }
+    for (let index = 0; index < this.length; index++) {
+      this[index].parentNode.removeChild(this[index]);
+    }
   }
+
+  makeBelieveElement.prototype.css = function(key, value) {
+    for (let index = 0; index < this.length; index++) {
+      this[index].style[key] = value;
+    }
+  }
+
+  makeBelieveElement.prototype.toggleClass = function(className) {
+    for (let index = 0; index < this.length; index++) {
+      this[index].classList.toggle(className);
+    }
+  }
+
+  makeBelieveElement.prototype.onSubmit = function(fn) {
+    // creates an onsubmit event with function fn on every item inside the makebelieve object
+    for (let index = 0; index < this.length; index++) {
+      this[index].addEventListener("submit", fn);
+    }
+  };
+
+  makeBelieveElement.prototype.onInput = function(fn) {
+    // creates an oninput event with function fn on every item inside the makebelieve object
+    for (let index = 0; index < this.length; index++) {
+      this[index].addEventListener("input", fn);
+    }
+  };
 
   var innerMakebelieve = function(query) {
     /* wrapper for querying used by __(query)*/
