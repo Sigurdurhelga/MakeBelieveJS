@@ -3,7 +3,7 @@
   */
 (function() {
   function makeBelieveElement(element, length) {
-    var i = 0;
+    let i = 0;
     element.forEach(element => {
       this[i] = element;
       i += 1;
@@ -20,7 +20,7 @@
       next sibling to those elements, and returns them
       in a new makeBelieveElement
       */
-    var allNextSiblings = [];
+    let allNextSiblings = [];
     for (let index = 0; index < this.length; index++) {
       const nextSibling = this[index].nextElementSibling;
       if (nextSibling) {
@@ -37,7 +37,7 @@
       previous sibling to those elements and returns
       a new makeBelieveElement
       */
-    var allPreviousSiblings = [];
+    let allPreviousSiblings = [];
     for (let index = 0; index < this.length; index++) {
       const previousSibling = this[index].previousElementSibling;
       if (previousSibling) {
@@ -59,18 +59,18 @@
     return false;
   }
 
-  makeBelieveElement.prototype.parent = function(selector = "") {
+  makeBelieveElement.prototype.parent = function(selector="") {
     /*
       returns every parent of every item in the makebelieve element.
       Can be filtered by a optional css selector
       */
 
     // make a nodelist of parents that I allow if the user asks for a filtered version
-    var possibleParents = "";
+    let possibleParents = "";
     if (selector != "") {
       possibleParents = document.querySelectorAll(selector);
     }
-    var allParents = [];
+    let allParents = [];
     for (let index = 0; index < this.length; index++) {
       const parent = this[index].parentNode;
       if (parent && !allParents.includes(parent)) {
@@ -86,22 +86,19 @@
     return new makeBelieveElement(allParents, allParents.length);
   };
 
-  makeBelieveElement.prototype.grandParent = function(selector = "") {
-    /* returns a parents parent */
+  makeBelieveElement.prototype.grandParent = function(selector="") {
+    /* returns a parent's parent */
     return this.parent().parent(selector);
   };
 
   function ancestorHelper(element, parentSelector) {
     // get all items which match the parent selector
-    var parents = document.querySelectorAll(parentSelector);
+    let parents = document.querySelectorAll(parentSelector);
     // read up until a parent with the correct selector is found, null is returned if none are found.
-    var currentParent = element.parentNode;
+    let currentParent = element.parentNode;
     while (currentParent && !nodelistContains(parents, currentParent)) {
-      console.log(nodelistContains(parents, currentParent));
       currentParent = currentParent.parentNode;
     }
-    console.log("ended at");
-    console.log(currentParent);
     return currentParent;
   }
 
@@ -110,9 +107,7 @@
       returns any ancestor of an item which is greater than a grandparent to it
       can be filtered by an optional css selector
       */
-    console.log("in handler with ");
-    console.log(makebelieve);
-    var allAncestors = [];
+    let allAncestors = [];
     for (let index = 0; index < makebelieve.length; index++) {
       if (selector != "") {
         // helper to get parents with a given selector
@@ -127,12 +122,10 @@
         }
       }
     }
-    console.log("found these");
-    console.log(allAncestors);
     return new makeBelieveElement(allAncestors, allAncestors.length);
   }
 
-  makeBelieveElement.prototype.ancestor = function(selector = "") {
+  makeBelieveElement.prototype.ancestor = function(selector="") {
     return ancestorHandler(this.grandParent(), selector);
   };
 
@@ -152,7 +145,7 @@
 
   function isValidHTML(html) {
     // takes in a possible html snippet and returns true if it is valid html, false otherwise.
-    var element = document.createElement("div");
+    let element = document.createElement("div");
     element.innerHTML = html;
     return element.innerHTML === html;
   }
@@ -169,7 +162,7 @@
         this[index].insertAdjacentHTML("beforeend", item);
       }
     } else {
-      console.log("invalid input");
+      throw "invalid input";
     }
   };
 
@@ -185,7 +178,7 @@
         this[index].insertAdjacentHTML('afterbegin',item);
       }
     } else {
-      console.log("invalid input");
+      throw "invalid input";
     }
   };
 
@@ -221,13 +214,14 @@
     }
   };
 
-  var innerMakebelieve = function(query) {
+  let innerMakebelieve = function(query) {
     /* wrapper for querying used by __(query)*/
-    var element = document.querySelectorAll(query);
+    let element = document.querySelectorAll(query);
     if (element) {
       return new makeBelieveElement(element, element.length);
     }
     return {};
   };
+
   window.__ = innerMakebelieve;
 })();
