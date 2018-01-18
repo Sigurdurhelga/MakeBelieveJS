@@ -223,5 +223,37 @@
     return {};
   };
 
+  innerMakebelieve.ajax = function(request={url:'',
+                                    method: 'GET',
+                                    timeout: 0,
+                                    data: {},
+                                    header: {},
+                                    success: null,
+                                    failed: null,
+                                    beforeSend: null
+                                  }) {
+    if (request.url === '') {
+      console.log("No url");
+      return;
+    }
+
+    xhr = new XMLHttpRequest();
+    xhr.open(request.method, request.url);
+    xhr.timeout = request.timeout;
+
+    xhr.onload = request.success;
+    xhr.onerror = request.failed;
+
+    for (let header in request.headers) {
+      xhr.setRequestHeader(header, request.headers[header]);
+    }
+
+    if(request.beforeSend) {
+      request.beforeSend(xhr);
+    }
+    xhr.send(request.data);
+  };
+
   window.__ = innerMakebelieve;
-})();
+}
+)();
